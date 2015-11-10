@@ -31,4 +31,36 @@ Congratulations, you're done setting up the device!  Go ahead and test it out by
 
 SmartThings doesn't really allow you to interact with the individual switches on a multichannel device very well.  So, we'll be creating two "virtual switches".  These virtual switches will look like a normal on/off switch to the SmartThings app, but in reality will just be associated to one of the two switches on our relay.
 
- 
+#### Installing the virtual switches
+
+1. From the IDE, click "My Devices", and click the "New Device" button.
+1. In the "Name" field, add whatever you want this switch to be called, ie "Front Porch Light"
+1. Leave "Label" and "Zigbee Id" blank.
+1. For "Device ID", pick an ID that you haven't used before.  I recommend using [a UUID](https://www.uuidgenerator.net/) for this purpose.
+1. Under "Type", select "Simulated Switch" from the dropdown.
+1. Under "Version", select "Published".
+1. Pick the correct values for your setup under "Location" and "Hub".
+1. Leave "Group" blank.
+1. Repeat steps 1-8 for your 2nd switch
+
+#### Installing the SmartApp
+
+1. Copy the code from [dual-relay-adapter.groovy](https://raw.githubusercontent.com/justintime/SmartThings-Monoprice-11990/master/dual-relay-adapter.groovy) into your clipboard.
+1. From the IDE, click "My SmartApps", then "New SmartApp", then click the "From Code" tab.
+1. Paste in the code you copied to your clipboard, and click the "Create" button.
+1. From the resulting page, click the "Save" button, then click the "Publish" button, and click "For Me" from the dropdown.
+1. You've now installed the SmartApp to your account, now to set it up!
+
+#### Configuring the SmartApp
+
+1. Now, grab your phone, and open up the SmartThings app.
+1. Touch the "Marketplace" icon in the lower right of the app -- it looks like an asterisk.
+1. Touch the "SmartApps" tab at the top of the page.
+1. Touch "My Apps", it's at the bottom of the list.
+1. Touch "Dual Relay Adapter".
+1. You'll be prompted with the question "Which Dual Relay Module?".  Here, select whatever you named your relay (the one with two switches).
+1. For the "Virtual Switch to link to Switch 1?" and "Virtual Switch to link to Switch 2?" questions, just pick the virtual switches that we created above.
+1. Assign this instance of the SmartApp a name.
+1. Touch "Done"
+
+Congratulations, you've done it!!! You can now assign your virtual switches to a room, and toggle them on and off just like normal light switches.  They can be used in other SmartApps and Routines, just like any other on/off switch.
