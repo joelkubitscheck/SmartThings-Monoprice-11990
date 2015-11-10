@@ -1,10 +1,9 @@
 /**
  *  Dual Relay Adapter (i.e. Enerwave ZWN-RSM2 Adapter, Monoprice Dual Relay, Philio PAN04)
  *
- *  Copyright 2014 Joel Tamkin
- *
- *	2015-10-29: erocm123 - I removed the scheduled refreshes for my Philio PAN04 as it supports instant
- *	status updates with my custom device type
+ *  Copyright 2015 Justin Ellison
+ * 
+ *  Special thanks to Joel Tamkin and Eric Maycock for the bulk of this code
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -18,25 +17,24 @@
  */
 definition(
     name: "Dual Relay Adapter",
-    namespace: "",
-    author: "Joel Tamkin",
-    description: "Associates Dual Relay Switch Modules with one or two standard SmartThings 'switch' devices for compatibility with standard control and automation techniques",
+    namespace: "justintime",
+    author: "Justin Ellison",
+    description: "Associates Dual Relay Switch Modules with one or two standard SmartThings 'virtual switch' devices for compatibility with standard control and automation techniques",
     category: "My Apps",
     iconUrl: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience.png",
     iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience@2x.png")
 
 
 preferences {
-  section("ZWN-RSM2 Module:") {
-    input "rsm", "capability.switch", title: "Which RSM2 Module?", multiple: false, required: true
-    input "switch1", "capability.switch", title: "First Switch?", multiple: false, required: true
-    input "switch2", "capability.switch", title: "Second Switch?", multiple: false, required: false
+  section("Configuration:") {
+    input "rsm", "capability.switch", title: "Which Dual Relay Module?", multiple: false, required: true
+    input "switch1", "capability.switch", title: "Virtual Switch to link to Switch 1?", multiple: false, required: true
+    input "switch2", "capability.switch", title: "Virtual Switch to link to Switch 2?", multiple: false, required: false
   }
 }
 
 def installed() {
   log.debug "Installed!"
-  //subscribe(rsm, "switch", rsmHandler)
   subscribe(rsm, "switch1", rsmHandler)
   subscribe(rsm, "switch2", rsmHandler)
   subscribe(switch1, "switch", switchHandler)
@@ -92,27 +90,26 @@ def switchHandler(evt) {
 
 def rsmHandler(evt) {
 	log.debug "$evt.name $evt.value"
-    if (evt.name == "switch1") {
-    	switch (evt.value) {
-        	case 'on':
-            	switch1.on()
-                break
-            case 'off':
-            	switch1.off()
-                break
-        }
+  if (evt.name == "switch1") {
+  	switch (evt.value) {
+      	case 'on':
+          	switch1.on()
+              break
+          case 'off':
+          	switch1.off()
+              break
     }
-    else if (evt.name == "switch2") {
-    	switch (evt.value) {
-        	case 'on':
-            	switch2.on()
-                break
-            case 'off':
-            	switch2.off()
-                break
-        }
+  }
+  else if (evt.name == "switch2") {
+  	switch (evt.value) {
+      	case 'on':
+          	switch2.on()
+              break
+          case 'off':
+          	switch2.off()
+              break
     }
-      	
+  }
 }
 
 def rsmRefresh() {
@@ -120,9 +117,5 @@ def rsmRefresh() {
 }
     
 def initialize() {
-    unschedule()
-    //def exp = "* * * * * ?"
-    //log.debug "Scheduling RSM refreshes"
-	//schedule(exp, rsmRefresh)
-    // TODO: subscribe to attributes, devices, locations, etc.
+  unschedule()
 }
