@@ -28,3 +28,7 @@ Once the custom device type is published in your own library, we need to actuall
 Congratulations, you're done setting up the device!  Go ahead and test it out by toggling the switches from the SmartThings app as well as from the switches themselves.  Make sure everything's working as planned before moving onto the SmartApp installation.
 
 ### Install the dual relay adapter SmartApp
+
+SmartThings doesn't really allow you to interact with the individual switches on a multichannel device very well.  So, we'll be creating two "virtual switches".  These virtual switches will look like a normal on/off switch to the SmartThings app, but in reality will just be associated to one of the two switches on our relay.
+
+ 
